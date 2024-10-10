@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Gas Consumption Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Natural Gas Consumption Tracker</h1>
+
+        <div id="initialValues">
+            <h2>Initial Setup</h2>
+            <label for="startMeter">Initial Meter Value (m³):</label>
+            <input type="number" id="startMeter" required><br>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" required><br>
+
+            <label for="annualLimit">Annual Consumption Limit (m³):</label>
+            <input type="number" id="annualLimit" required><br>
+
+            <label for="endDate">Contract End Date:</label>
+            <input type="date" id="endDate" required><br>
+
+            <button id="saveInitialValues">Save</button>
+        </div>
+
+        <div id="currentValues">
+            <h2>Enter Current Meter Reading</h2>
+            <label for="currentMeter">Current Meter Value (m³):</label>
+            <input type="number" id="currentMeter" required><br>
+
+            <label for="currentDate">Current Date:</label>
+            <input type="date" id="currentDate" required><br>
+
+            <button id="saveCurrentValues">Save</button>
+        </div>
+
+        <div id="result"></div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
