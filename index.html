@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Natural Gas Consumption Tracker</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js Kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
     <div class="container">
         <h1>Natural Gas Consumption Tracker</h1>
 
+        <!-- Başlangıç Verileri Formu -->
         <div id="initialValues">
             <h2>Initial Setup</h2>
             <label for="startMeter">Initial Meter Value (m³):</label>
@@ -26,9 +30,10 @@
             <label for="endDate">Contract End Date:</label>
             <input type="date" id="endDate" required><br>
 
-            <button id="saveInitialValues">Save</button>
+            <button id="saveInitialValues">Save Initial Values</button>
         </div>
 
+        <!-- Güncel Sayaç Verileri Formu -->
         <div id="currentValues">
             <h2>Enter Current Meter Reading</h2>
             <label for="currentMeter">Current Meter Value (m³):</label>
@@ -37,14 +42,31 @@
             <label for="currentDate">Current Date:</label>
             <input type="date" id="currentDate" required><br>
 
-            <button id="saveCurrentValues">Save</button>
+            <button id="saveCurrentValues">Save Current Meter Reading</button>
         </div>
 
-        <div id="result"></div>
-
+        <!-- Sayaç Verileri Tablosu -->
+        <h2>Meter Readings</h2>
+        <table id="readingsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Meter Value (m³)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Veriler buraya eklenecek -->
+            </tbody>
+        </table>
     </div>
 
+    <h2>Gaz Harcama Grafikleri</h2>
+    <canvas id="usageChart" width="400" height="200"></canvas>
+
+
     <script src="app.js"></script>
+    <script src="charts.js"></script>
 </body>
 
 </html>

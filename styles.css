@@ -1,49 +1,157 @@
+/* Genel sayfa stili */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
-    padding: 0;
-}
-
-.container {
-    max-width: 600px;
-    margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f4f4f4;
 }
 
 h1,
 h2 {
-    text-align: center;
     color: #333;
+}
+
+/* Tablo stili */
+table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+tr:nth-child(even) td {
+    background-color: #f9f9f9;
+    /* Satırların arka planını değiştir */
+}
+
+/* Tablo içindeki input elementleri */
+input[type="date"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
+    /* Genişlik hesaplamasına padding ve border dahil */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Butonlar */
+button.delete {
+    padding: 8px 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button.delete:hover {
+    background-color: #d32f2f;
+}
+
+/* Form elemanları */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin: 10px 0 5px;
+    margin-bottom: 5px;
+    color: #333;
 }
 
+input[type="text"],
 input[type="number"],
 input[type="date"] {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
 }
 
+/* Genel buton stili */
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #45a049;
+}
+
+/* Uyarı mesajları */
+.alert {
+    padding: 15px;
+    background-color: #f44336;
+    /* Red */
+    color: white;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.alert.success {
+    background-color: #4CAF50;
+    /* Green */
+}
+
+.alert.info {
+    background-color: #2196F3;
+    /* Blue */
+}
+
+.alert.warning {
+    background-color: #ff9800;
+    /* Orange */
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+
+    table,
+    th,
+    td {
+        display: block;
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+    }
 }
