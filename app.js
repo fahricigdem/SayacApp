@@ -6,6 +6,7 @@ function loadMeterReadings() {
     const startMeter = localStorage.getItem('startMeter');
     const startDate = localStorage.getItem('startDate');
 
+
     if (startMeter && startDate) {
         meterReadings.unshift({ date: startDate, meter: startMeter });  // İlk veriyi başa ekle
     }
@@ -21,12 +22,16 @@ function loadMeterReadings() {
 
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><input type="date" value="${reading.date}" onchange="editReading(${index}, 'date', this.value)" ${isInitialValue ? 'disabled' : ''}></td>
-            <td><input type="number" value="${reading.meter}" onchange="editReading(${index}, 'meter', this.value)" ${isInitialValue ? 'disabled' : ''}></td>
+            <td>${reading.date}</td>
+            <td>${reading.meter}</td>
             <td>${isInitialValue ? '' : `<button class="delete" onclick="deleteReading(${index})">Delete</button>`}</td>
         `;
         tableBody.appendChild(row);
     });
+
+
+
+
 }
 
 // Veriyi düzenle
@@ -60,6 +65,65 @@ function deleteReading(index) {
     }
 }
 
+
+// Günlük ortalama harcamayı hesapla ve göster
+document.getElementById('calculateAverage').addEventListener('click', function () {
+    calculateDailyAverage();
+});
+
+function calculateDailyAverage() {
+    let meterReadings = JSON.parse(localStorage.getItem('meterReadings')) || [];
+
+    if (meterReadings.length >= 2) {
+        // Tarihe göre sırala
+        meterReadings.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        // İlk ve son okuma verilerini al
+        const firstReading = meterReadings[0];
+        const lastReading = meterReadings[meterReadings.length - 1];
+
+        // İlk ve son tarih arasındaki gün farkı
+        const daysDifference = (new Date(lastReading.date) - new Date(firstReading.date)) / (1000 * 60 * 60 * 24);
+        const consumptionDifference = lastReading.meter - firstReading.meter;
+
+        // Günlük ortalama tüketimi hesapla
+        const dailyAverage = consumptionDifference / daysDifference;
+
+
+        const annualLimit = localStorage.getItem('annualLimit');
+        const startMeter = localStorage.getItem('startMeter');
+        const contractEndDate = new Date(localStorage.getItem('endDate'));
+        const lastReadingDate = new Date(lastReading.date);
+        const remainingDays = (contractEndDate - lastReadingDate) / (1000 * 60 * 60 * 24);
+        const remainingConsumption = remainingDays * dailyAverage;
+        const predictedValue = remainingConsumption + Number(lastReading.meter)
+
+        // Sonucu ve kullanılan tarih aralığını HTML'de göster
+        document.getElementById('dailyAverageResult').innerText = `
+            Günlük ortalama: ${dailyAverage.toFixed(2)} m³/day ( ${new Date(firstReading.date).toLocaleDateString()} - ${new Date(lastReading.date).toLocaleDateString()}) 
+             Toplam harcama: ${Number(lastReading.meter) - Number(firstReading.meter)}
+             Kalan harcama: ${Number(annualLimit) - (Number(lastReading.meter) - Number(firstReading.meter))}
+        `;
+
+
+        // console.log(lastReading.meter)
+        console.log((Number(lastReading.meter) - Number(firstReading.meter)))
+        console.log(remainingConsumption)
+        console.log(488 - 114)
+        console.log(Number(annualLimit) - Number(remainingConsumption) - (Number(lastReading.meter) - Number(firstReading.meter)))
+        const yapilanHarcama = Number(lastReading.meter) - Number(firstReading.meter);
+        document.getElementById('predictedMeterResult').innerText = ` Bu gidisle sayac : ${predictedValue.toFixed(0)} m³  
+        (${contractEndDate.toLocaleDateString()}'te bu gidisle arta kalacak ${(Number(annualLimit) - (yapilanHarcama + Number(remainingConsumption))).toFixed(0)} ) `;
+
+        document.getElementById('olmasiGereken').innerText = `Gercek Maksimum Limit: ${Number(startMeter) + Number(annualLimit)} m³  (on ${contractEndDate.toLocaleDateString()}) `;
+
+
+    } else {
+        document.getElementById('dailyAverageResult').innerText = 'Not enough data to calculate average consumption.';
+        document.getElementById('predictedMeterResult').innerText = '';
+    }
+}
+
 // Sayfa yüklendiğinde mevcut verileri göster
 window.onload = function () {
     if (localStorage.getItem('startMeter')) {
@@ -69,7 +133,50 @@ window.onload = function () {
         document.getElementById('endDate').value = localStorage.getItem('endDate');
     }
     loadMeterReadings();  // Mevcut verileri yükle
+    calculateDailyAverage();  // Günlük ortalama tüketimi hesapla
     renderCharts();  // Grafikleri oluştur
 };
 
+
+
+////
+document.getElementById('saveCurrentValues').addEventListener('click', function () {
+    // Formdaki verileri al
+    const currentMeter = document.getElementById('currentMeter').value;
+    const currentDate = document.getElementById('currentDate').value;
+
+    // Geçerli veri var mı kontrol et
+    if (currentMeter && currentDate) {
+        // Mevcut sayaç verilerini al
+        let meterReadings = JSON.parse(localStorage.getItem('meterReadings')) || [];
+
+        // Aynı tarihe sahip önceki veriyi bul
+        const existingIndex = meterReadings.findIndex(reading => reading.date === currentDate);
+
+        if (existingIndex !== -1) {
+            // Aynı tarihe sahip veri bulundu, güncelle
+            meterReadings[existingIndex].meter = currentMeter;
+        } else {
+            // Aynı tarihli veri yok, yeni veriyi ekle
+            meterReadings.push({ date: currentDate, meter: currentMeter });
+        }
+
+        // Veriyi localStorage'a kaydet
+        localStorage.setItem('meterReadings', JSON.stringify(meterReadings));
+
+        // Tablodaki verileri güncelle
+        loadMeterReadings();
+
+        // Günlük ortalama tüketimi güncelle
+        calculateDailyAverage();
+
+        // Alanları temizle
+        document.getElementById('currentMeter').value = '';
+        document.getElementById('currentDate').value = '';
+
+        alert('Current meter reading saved!');
+    } else {
+        alert('Please enter both the meter value and the date.');
+    }
+});
 

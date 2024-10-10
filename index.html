@@ -13,7 +13,47 @@
 
 <body>
     <div class="container">
-        <h1>Natural Gas Consumption Tracker</h1>
+
+        <!-- Güncel Sayaç Verileri Formu -->
+        <div id="currentValues">
+            <h2>Enter Current Meter Reading</h2>
+            <label for="currentMeter">Current Meter Value (m³):</label>
+            <input type="number" id="currentMeter" required><br>
+
+            <label for="currentDate">Current Date:</label>
+            <input type="date" id="currentDate" required><br>
+
+            <button id="saveCurrentValues">Save Current Meter Reading</button>
+        </div>
+
+
+        <button id="calculateAverage" style="display:none;">Calculate Average</button>
+        <p id="olmasiGereken"> </p>
+
+        <p id="dailyAverageResult">Daily Average Consumption: -</p>
+        <p id="predictedMeterResult">Predicted Meter Reading by Contract End Date: -</p>
+
+
+        <!-- Sayaç Verileri Tablosu -->
+        <h2>Meter Readings</h2>
+        <table id="readingsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Meter Value (m³)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Veriler buraya eklenecek -->
+            </tbody>
+        </table>
+
+
+
+        <h2>Gaz Harcama Grafikleri</h2>
+        <canvas id="usageChart" width="400" height="200"></canvas>
+
 
         <!-- Başlangıç Verileri Formu -->
         <div id="initialValues">
@@ -33,36 +73,7 @@
             <button id="saveInitialValues">Save Initial Values</button>
         </div>
 
-        <!-- Güncel Sayaç Verileri Formu -->
-        <div id="currentValues">
-            <h2>Enter Current Meter Reading</h2>
-            <label for="currentMeter">Current Meter Value (m³):</label>
-            <input type="number" id="currentMeter" required><br>
-
-            <label for="currentDate">Current Date:</label>
-            <input type="date" id="currentDate" required><br>
-
-            <button id="saveCurrentValues">Save Current Meter Reading</button>
-        </div>
-
-        <!-- Sayaç Verileri Tablosu -->
-        <h2>Meter Readings</h2>
-        <table id="readingsTable">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Meter Value (m³)</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Veriler buraya eklenecek -->
-            </tbody>
-        </table>
     </div>
-
-    <h2>Gaz Harcama Grafikleri</h2>
-    <canvas id="usageChart" width="400" height="200"></canvas>
 
 
     <script src="app.js"></script>
