@@ -26,6 +26,10 @@ document.getElementById('saveCurrentValues').addEventListener('click', function 
         meterReadings.push({ date: currentDate, meter: currentMeter });
         localStorage.setItem('meterReadings', JSON.stringify(meterReadings));
         alert('Current meter reading saved!');
+
+        // Alanları sıfırla
+        document.getElementById('currentMeter').value = '';
+        document.getElementById('currentDate').value = '';
     } else {
         alert('Please fill in all fields.');
     }
